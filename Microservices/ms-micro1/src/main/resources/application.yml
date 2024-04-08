@@ -1,0 +1,33 @@
+server:
+
+  port: 8089
+spring:
+  servlet:
+    multipart:
+      enabled: true
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+  application:
+    name: ms-micro1
+  profiles:
+    default: default
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${BROKEN_URL}
+      function:
+        bindings:
+          consumerUpdateBatch-out-0:
+            destination: consumerUpdateBatch
+          consumerBatch-in-0:
+            destination: consumerBatch
+eureka:
+  instance:
+    instance-id: "${spring.application.name}:${random.value}"
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}

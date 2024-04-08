@@ -1,0 +1,22 @@
+server:
+  port: 8888
+
+spring:
+  profiles:
+    active: default
+  application:
+    name: ms-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Jhonny1992/ms-config-server.git
+          default-label: main
+          clone-on-start: true
+
+eureka:
+  instance:
+    instance-id: "${spring.application.name}:${random.value}"
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}

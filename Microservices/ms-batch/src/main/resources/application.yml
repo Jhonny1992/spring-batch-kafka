@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    username: ${db.username}
+    hikari:
+      maximum-pool-size: ${db.maximum-pool-size}
+      connection-timeout: ${db.connection-timeout}
+    url: ${db.url}
+    password: ${db.password}
+  application:
+    name: ms-batch
+  profiles:
+    default: default
+  config:
+    import: "optional:configserver:${CONFIG_SERVER}"
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${BROKER_URL}
+      function:
+        bindings:
+          consumerUpdateBatch-in-0:
+            destination: consumerUpdateBatch
+          consumerBatch-out-0:
+            destination: consumerBatch
+server:
+  servlet:
+    context-path: /ms-batch
+  port: 8087
+eureka:
+  instance:
+    instance-id: "${spring.application.name}:${random.value}"
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
